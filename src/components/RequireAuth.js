@@ -1,32 +1,32 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={props => (
-    props.authenticated ? (
-      <Redirect to='/' />
-    ) : (
-      <Component {...props}/>
-    )
-    //
-    // )
-  )}/>
-)
+export default function (ComposedComponent) {
+  class Authentication extends React.Component {
+    // static contextTypes = {
+    //   router: React.PropTypes.object
+    // }
 
-function mapStateToProps(state) {
-  return { authenticated: state.authenticated };
+    componentWillMount() {
+      if (!this.props.authenticated) {
+        this.props.history.push('/');
+      }
+    }
+
+    componentWillUpdate(nextProps) {
+      if (!nextProps.authenticated) {
+        this.props.history.push('/');
+      }
+    }
+
+    render() {
+      return <ComposedComponent {...this.props} />
+    }
+  }
+
+  function mapStateToProps(state) {
+    return { authenticated: state.authenticated };
+  }
+
+  return connect(mapStateToProps)(Authentication);;
 }
-
-export default connect(mapStateToProps)(PrivateRoute);
-
-{/* <Route {...rest} render={props => (
-  fakeAuth.isAuthenticated ? (
-    <Component {...props}/>
-  ) : (
-    <Redirect to={{
-      pathname: '/',
-      state: { from: props.location }
-    }}/>
-  )
-)}/> */}

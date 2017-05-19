@@ -19,3 +19,15 @@ The tutorial can be found [here](https://www.udemy.com/react-redux-tutorial/)
   - Authenticated/Protected routes
   - Data fetching and parsing
   - Selective rendering
+
+```js
+export default function (ComposedComponent) {
+  class Authentication extends Component {
+    render() {
+      return <ComposedComponent {...this.props} />
+    }
+  }
+
+  return Authentication;
+}
+```
