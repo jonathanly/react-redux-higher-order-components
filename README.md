@@ -35,7 +35,6 @@ export default function (ComposedComponent) {
 
 ### Integrating Redux Into HOCs
 - Connecting to the redux store is written within the HOC component.
-git
 
 Ex.
 ```js
